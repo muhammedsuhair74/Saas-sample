@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 
-export const metadata = {
-  title: "User Dashboard | SaaS Platform",
-  description: "Manage your subscriptions and payments on the SaaS platform.",
-};
+// export const metadata = {
+//   title: "User Dashboard | SaaS Platform",
+//   description: "Manage your subscriptions and payments on the SaaS platform.",
+// };
 
 export default function Dashboard() {
   const [status, setStatus] = useState("Not Subscribed");
