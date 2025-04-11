@@ -1,11 +1,15 @@
 "use client";
-
-"use client"; // Ensure this is a Client Component
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { SessionProvider } from "next-auth/react";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
-  return <SessionProvider>{children}</SessionProvider>;
+  return (
+    <SessionProvider>
+      <ToastContainer />
+      {children}
+    </SessionProvider>
+  );
 };
 
 export default Providers;

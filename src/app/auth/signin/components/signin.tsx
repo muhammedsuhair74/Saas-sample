@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
   const router = useRouter();
@@ -14,15 +15,18 @@ const SignIn = () => {
     e.preventDefault();
 
     const result = await signIn("credentials", {
-      redirect: true,
+      redirect: false,
       email,
       password,
-      callbackUrl: "/dashboard",
+      // callbackUrl: "/dashboard",
     });
+    console.log("result", result);
 
-    if (result?.error) {
+    if (result?.error && result?.status === 401) {
+      toast.error("invalid email or password");
       setError("Invalid email or password");
     } else {
+      toast.success("Signed in successfully");
       router.push("/dashboard");
     }
   };

@@ -24,31 +24,31 @@
 //   }
 // };
 
-export const fetcher = async (url: string, options: RequestInit = {}) => {
-  const fullUrl = `http://localhost:3000/api${url}`;
-  console.log("fullUrl", fullUrl);
-  const response = await fetch(fullUrl, {
+export const fetcher = async <T>(
+  url: string,
+  options: RequestInit = {}
+): Promise<T> => {
+  console.log("fetcher", url, options);
+  const response = await fetch(url, {
     ...options,
     headers: {
       "Content-Type": "application/json",
+      ...options.headers,
     },
   });
-
-  //   console.log("Response status:", response.status);
-  //   const text = await response.text();
-  //   console.log("Response body:", text);
-
+  console.log("response", response);
   if (!response.ok) {
-    // Handle HTTP errors
-    throw new Error(`HTTP error! status: ${response.status}`);
+    const errorData = await response.json();
+    throw new Error(
+      errorData.message || `HTTP error! status: ${response.status}`
+    );
   }
-  console.log("response in fetcher", response);
-  return response;
 
-  //   //   const contentType = response.headers.get("content-type");
-  //   if (contentType && contentType.includes("application/json")) {
-  //     return JSON;
-  //   } else {
-  //     throw new Error("Received non-JSON response");
-  //   }
+  const contentType = response.headers.get("content-type");
+  console.log("contentType", contentType);
+  if (contentType && contentType.includes("application/json")) {
+    return response.json();
+  }
+
+  throw new Error("Received non-JSON response");
 };

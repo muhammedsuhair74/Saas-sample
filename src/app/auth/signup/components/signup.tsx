@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signup } from "../../../../utils/actions";
+import { fetcher } from "../../../../utils/fetcher";
 
 const SignUp = () => {
   const router = useRouter();
@@ -14,12 +14,16 @@ const SignUp = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("signup page", name, email, password);
-    const res = await signup(name, email, password);
+    const res = await fetcher("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
     console.log("signup page res", res);
-    if (res.ok) {
+    if (res.name) {
       router.push("/auth/signin");
     } else {
-      const { message } = await res.json();
+      const { message } = await res;
       setError(message);
     }
   };
