@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function ProfilePage() {
@@ -66,7 +66,7 @@ export default function ProfilePage() {
             id="email"
             value={session?.user?.email || ""}
             disabled
-            className="mt-1 bg-gray-100 cursor-not-allowed"
+            className="mt-1  cursor-not-allowed"
           />
         </div>
 

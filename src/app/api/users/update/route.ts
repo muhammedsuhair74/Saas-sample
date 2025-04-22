@@ -1,7 +1,7 @@
-import { getServerSession } from "next-auth";
 import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function PATCH(req: Request) {

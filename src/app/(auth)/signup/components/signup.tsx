@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { fetcher } from "../../../../utils/fetcher";
 
 const SignUp = () => {
@@ -21,7 +21,7 @@ const SignUp = () => {
     });
     console.log("signup page res", res);
     if (res.name) {
-      router.push("/auth/signin");
+      router.push("/signin");
     } else {
       const { message } = await res;
       setError(message);
@@ -29,7 +29,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
+    <div className="min-h-screen flex justify-center items-center bg-black">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-10 shadow-lg rounded-lg w-96"
@@ -44,7 +44,7 @@ const SignUp = () => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full p-2 border rounded text-black"
+            className="w-full p-2 border rounded "
             required
           />
         </div>
@@ -55,7 +55,7 @@ const SignUp = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border rounded text-black"
+            className="w-full p-2 border rounded "
             required
           />
         </div>
@@ -66,7 +66,7 @@ const SignUp = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border rounded text-black"
+            className="w-full p-2 border rounded "
             required
           />
         </div>
@@ -80,7 +80,7 @@ const SignUp = () => {
 
         <p className="mt-4 text-center">
           Already have an account?
-          <a href="/auth/signin" className="text-blue-500 underline">
+          <a href="/signin" className="text-blue-500 underline">
             Sign In
           </a>
         </p>

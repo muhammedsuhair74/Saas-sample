@@ -14,17 +14,17 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(uuid())
-  email       String   @unique
-  name        String?
-  password    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  Subscription Subscription[]
-  avatarUrl String? // optional avatar field
-
+  id                 String           @id @default(uuid())
+  email              String           @unique
+  name               String
+  password           String
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  avatarUrl          String? // Optional field for avatar
+  isTwoFactorEnabled Boolean          @default(false) // 🔐 2FA enabled flag
+  Subscription       Subscription[]
+  twoFactorTokens    TwoFactorToken[]
 }
-
 
 model Subscription {
   id        String   @id @default(uuid())
@@ -37,3 +37,12 @@ model Subscription {
   user User @relation(fields: [userId], references: [id])
 }
 
+model TwoFactorToken {
+  id        String   @id @default(uuid())
+  token     String
+  userId    String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  user User @relation(fields: [userId], references: [id])
+}

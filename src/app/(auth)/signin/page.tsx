@@ -1,9 +1,8 @@
 "use server";
-import { fetcher } from "../../../utils/fetcher";
 import SignIn from "./components/signin";
 
 const page = async () => {
-  // const response = await fetcher("/auth/signup", {
+  // const response = await fetcher("/signup", {
   //   method: "GET",
   //   headers: {
   //     "Content-Type": "application/json",

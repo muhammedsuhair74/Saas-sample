@@ -1,7 +1,7 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test("Login page should load and allow login", async ({ page }) => {
-  await page.goto("/auth/signin");
+  await page.goto("/signin");
 
   // Verify login form exists
   await expect(page).toHaveURL(/.*signin/);

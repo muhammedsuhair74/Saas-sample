@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { UploadButton } from "@/lib/uploadthing"; // adjust if your path is different
+import { UploadButton } from "@/lib/uploadthing";
 import Image from "next/image";
+import { useState } from "react";
 
 export function AvatarUploader({
   onUpload,
@@ -12,7 +12,7 @@ export function AvatarUploader({
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   return (
-    <div className="flex flex-col items-center space-y-4">
+    <div className="flex flex-col items-center space-y-4 border">
       {previewUrl && (
         <Image
           src={previewUrl}
@@ -34,6 +34,7 @@ export function AvatarUploader({
           console.error("Upload error", error);
         }}
         onBeforeUploadBegin={(files) => {
+          console.log("\n \n \n files", files);
           const file = files[0];
           if (file) {
             const preview = URL.createObjectURL(file);

@@ -1,5 +1,6 @@
-import Topbar from "@/components/layout/topbar";
-import { Sidebar } from "lucide-react";
+import Sidebar from "@/components/layout/Sidebar";
+import Topbar from "@/components/layout/Topbar";
+import { getUser } from "@/utils/actions";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -13,17 +14,16 @@ export default async function DashboardLayout({
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    redirect("/auth/signin");
+    redirect("/signin");
   }
+  const user = await getUser(session.user.id);
 
   return (
     <div className="flex h-screen">
-      <Sidebar />
+      <Sidebar user={user} />
       <div className="flex flex-col flex-1">
         <Topbar />
-        <main className="flex-1 overflow-y-auto p-6 bg-muted/40">
-          {children}
-        </main>
+        <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>
   );

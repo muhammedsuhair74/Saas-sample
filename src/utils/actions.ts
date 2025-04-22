@@ -1,6 +1,5 @@
 "use server";
 
-import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import prisma from "../lib/prisma";
 
@@ -29,4 +28,10 @@ export const signUp = async (name: string, email: string, password: string) => {
   } catch (error) {
     return { error: "Error creating user" };
   }
+};
+
+export const getUser = async (userId: string) => {
+  const user =
+    (await prisma.user.findUnique({ where: { id: userId } })) || null;
+  return user;
 };

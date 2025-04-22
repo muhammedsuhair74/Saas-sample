@@ -1,16 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+import DefaultAvatar from "../../public/avatarDefault.png";
 
-export default function UserAvatar() {
-  const { data: session } = useSession();
-  const avatarUrl = session?.user?.image || "/default-avatar.png";
-
+const UserAvatar = ({ avatarUrl }: { avatarUrl: string }) => {
   return (
     <div className="h-10 w-10 rounded-full overflow-hidden border">
       <Image
-        src={avatarUrl}
+        src={avatarUrl || DefaultAvatar}
         alt="User avatar"
         width={40}
         height={40}
@@ -18,4 +15,6 @@ export default function UserAvatar() {
       />
     </div>
   );
-}
+};
+
+export default UserAvatar;
