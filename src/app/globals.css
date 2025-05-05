@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "react-datepicker/dist/react-datepicker.css";
 
 @theme inline {
   --color-background: var(--background);
@@ -12,8 +13,6 @@
 body {
   color: black;
 }
-
-
 
 @layer base {
   :root {
@@ -70,8 +69,6 @@ body {
     --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {

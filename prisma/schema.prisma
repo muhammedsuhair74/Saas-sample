@@ -24,6 +24,7 @@ model User {
   isTwoFactorEnabled Boolean          @default(false) // 🔐 2FA enabled flag
   Subscription       Subscription[]
   twoFactorTokens    TwoFactorToken[]
+  workouts  Workout[]
 }
 
 model Subscription {
@@ -46,3 +47,16 @@ model TwoFactorToken {
 
   user User @relation(fields: [userId], references: [id])
 }
+
+model Workout {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  workoutType String
+  reps        Int
+  hour        DateTime
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, hour, workoutType])
+}
+
