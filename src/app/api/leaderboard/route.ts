@@ -7,7 +7,6 @@ export async function GET(req: Request) {
     const date = searchParams.get("date");
     const hour = searchParams.get("hour");
     const workoutType = searchParams.get("workoutType");
-
     const filter: any = {};
 
     // Apply date/hour filtering
@@ -71,7 +70,7 @@ export async function GET(req: Request) {
         })
       );
 
-      return NextResponse.json(leaderboardWithUsers);
+      return NextResponse.json({ leaderboard: leaderboardWithUsers });
     }
 
     // Default full leaderboard (no filter applied)

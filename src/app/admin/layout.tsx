@@ -1,7 +1,6 @@
-import { getServerSession } from "next-auth";
+import { AuthOptions, getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
-import Dashboard from "../dashboard/page";
 import { authOptions } from "../../lib/auth";
 
 export default async function AdminLayout({
@@ -9,10 +8,10 @@ export default async function AdminLayout({
 }: {
   children: ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions as AuthOptions);
 
   // Protect route - only allow admin users
-  if (!session || session.user?.email !== "admin@example.com") {
+  if (!session || session.user?.email !== "asd@saas.com") {
     redirect("/signin");
   }
 

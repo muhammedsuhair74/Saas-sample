@@ -33,4 +33,3 @@ const WorkoutDropdown = ({ selectedWorkout, setSelectedWorkout }: WorkoutDropdow
 };
 
 export default WorkoutDropdown;
-

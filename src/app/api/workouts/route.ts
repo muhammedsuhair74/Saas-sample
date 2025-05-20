@@ -1,11 +1,14 @@
 import { authOptions } from "@/lib/auth";
+import { assignBadgesAfterWorkout } from "@/lib/badges";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
+import { AuthOptions, getServerSession, Session } from "next-auth";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = (await getServerSession(authOptions as AuthOptions)) as Session & {
+      user: { id: string };
+    };
 
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -41,7 +44,14 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({ success: true, workout });
+    await assignBadgesAfterWorkout({
+      reps,
+      workoutType,
+      hour: currentHour,
+      userId: session.user.id,
+    });
+
+    return NextResponse.json(workout);
   } catch (error) {
     console.error("Workout log error:", error);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });

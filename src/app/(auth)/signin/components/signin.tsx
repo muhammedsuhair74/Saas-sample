@@ -45,8 +45,6 @@ const SignIn = () => {
   };
 
   const handleLogin = async () => {
-    console.log("in handle login");
-    debugger;
     setIsLoading(true);
     if (requires2FA === null) {
       console.log("in 2fa");

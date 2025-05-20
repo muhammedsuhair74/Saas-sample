@@ -16,7 +16,11 @@ const links = [
   { href: "/dashboard/leaderboard", label: "Leaderboard", icon: Activity }, // New Leaderboard link
 ];
 
-export default function Sidebar() {
+interface SidebarProps {
+  user: User | null;
+}
+
+export default function Sidebar({ user }: SidebarProps) {
   const { data: session } = useSession(); // Get session data using useSession hook
   const pathname = usePathname();
 

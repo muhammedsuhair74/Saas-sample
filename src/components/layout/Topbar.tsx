@@ -2,9 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { signOut, useSession } from "next-auth/react";
+import { StaticImageData } from "next/image";
 import { ThemeToggle } from "../theme-toggle";
-
-export default function Topbar() {
+export default function Topbar({
+  highestBadge,
+}: {
+  highestBadge: { image?: StaticImageData; name: string };
+}) {
   const { data: session } = useSession();
 
   return (
@@ -14,6 +18,12 @@ export default function Topbar() {
       <div className="flex items-center gap-4">
         {session?.user && (
           <>
+            {highestBadge && (
+              <div className="flex items-center gap-2">
+                <div>{highestBadge.name}</div>
+                {/* <Image src={highestBadge.image} alt="highestBadge" width={30} height={30} /> */}
+              </div>
+            )}
             <span className="text-sm text-muted-foreground">
               Signed in as <strong>{session.user.email}</strong>
             </span>

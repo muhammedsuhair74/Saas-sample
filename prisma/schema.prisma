@@ -24,7 +24,9 @@ model User {
   isTwoFactorEnabled Boolean          @default(false) // 🔐 2FA enabled flag
   Subscription       Subscription[]
   twoFactorTokens    TwoFactorToken[]
-  workouts  Workout[]
+  workouts           Workout[]
+  Badge              Badge[]
+  TotalWorkouts      TotalWorkouts[]
 }
 
 model Subscription {
@@ -60,3 +62,41 @@ model Workout {
   @@unique([userId, hour, workoutType])
 }
 
+model Badge {
+  id          String    @id @default(cuid())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  value       Int       @default(0)
+  workoutType String    @default("pushup")
+  badgeType   BadgeType @default(DAILY)
+  awardedAt   DateTime  @default(now())
+  isPermanent Boolean   @default(false)
+  reps        Int       @default(0)
+
+  @@index([userId, workoutType])
+}
+
+model TotalWorkouts {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  type   String @default("pushup")
+  total  Int    @default(0)
+
+  @@index([userId, type])
+}
+
+enum BadgeType {
+  DAILY
+  WEEKLY
+  MONTHLY
+  WEEKLY_STREAK
+  MONTHLY_STREAK
+}
+
+enum WorkoutType {
+  pushups
+  squat
+  plank
+  situp
+}

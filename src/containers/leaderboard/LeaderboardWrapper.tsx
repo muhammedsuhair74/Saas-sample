@@ -1,26 +1,16 @@
 'use client'
+import LeaderboardFilters from "@/components/LeaderboardFilters";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import WorkoutDropdown from "@/components/workoutDropDown";
 import Leaderboard from "@/containers/leaderboard/components/Leaderboard";
 import { useEffect, useState } from "react";
 import { LeaderboardProps } from "../../../type";
-import { getLeaderboard } from "./actions";
+import { fetchLeaderboard } from "./api";
+import { formatWorkoutData } from "./utils";
 
-const LeaderboardWrapper = ({ data }: { data: any }) => {
+const LeaderboardWrapper = () => {
 
-  console.log(data);
-
-  const formatWorkoutData = (data: any) =>
-    data.map((item: any) => ({
-      id: item.user.id,
-      name: item.user.name,
-      workoutType: item.workoutType,
-      reps: item._sum.reps,
-      avatarUrl: item.user.avatarUrl,
-    }));
-
-  const [selectedWorkout, setSelectedWorkout] = useState<string>("all");
-  const [leaderboard, setLeaderboard] = useState<LeaderboardProps[]>(formatWorkoutData(data));
+  const [selectedWorkout, setSelectedWorkout] = useState<string>("pushups");
+  const [leaderboard, setLeaderboard] = useState<LeaderboardProps[]>([]);
 
 
   // useEffect(() => {
@@ -28,21 +18,35 @@ const LeaderboardWrapper = ({ data }: { data: any }) => {
   // }, [data.length]);
 
   useEffect(() => {
-    const fetchLeaderboard = async () => {
-      const data = await getLeaderboard(selectedWorkout);
+    const fetchLatestLeaderboard = async () => {
+      const data = await fetchLeaderboard({
+        workoutType: selectedWorkout
+      });
       console.log(data);
       const formattedData = formatWorkoutData(data);
       setLeaderboard(formattedData);
     };
-    fetchLeaderboard();
+    fetchLatestLeaderboard();
   }, [selectedWorkout]);
+
+  const onFetch = async (filters: {
+    date?: string;
+    hour?: string;
+    workoutType?: string;
+  }) => {
+    console.log("filters", filters);
+    const newData = await fetchLeaderboard(filters);
+    console.log("newData", newData);
+    const formattedData = formatWorkoutData(newData);
+    setLeaderboard(formattedData);
+  }
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       <Card>
         <CardHeader className="flex flex-row justify-between">
           <CardTitle>🏆 Workout Leaderboard</CardTitle>
-          <div className="mt-4">
+          {/* <div className="mt-4"> */}
             {/* <label className="mr-2 font-medium">Workout Type:</label>
             <select
               value={selectedWorkout}
@@ -54,16 +58,18 @@ const LeaderboardWrapper = ({ data }: { data: any }) => {
                 <option key={type} value={type}>{type}</option>
               ))}
             </select> */}
-            <WorkoutDropdown selectedWorkout={selectedWorkout} setSelectedWorkout={setSelectedWorkout} />
-          </div>
+            {/* <WorkoutDropdown selectedWorkout={selectedWorkout} setSelectedWorkout={setSelectedWorkout} /> */}
+          {/* </div> */}
 
         </CardHeader>
         <CardContent>
-          <ul className="space-y-4">
+          <LeaderboardFilters onFetch={onFetch} />
+          {leaderboard.length > 0 && <ul className="space-y-4">
             {leaderboard.map((user: LeaderboardProps) => (
               <Leaderboard key={user.id} data={user} />
             ))}
-          </ul>
+          </ul>}
+          {leaderboard.length === 0 && <p>No data found</p>}
         </CardContent>
       </Card>
     </div>

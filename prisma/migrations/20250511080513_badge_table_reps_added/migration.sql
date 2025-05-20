@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Badge" ADD COLUMN     "reps" INTEGER NOT NULL DEFAULT 0;
